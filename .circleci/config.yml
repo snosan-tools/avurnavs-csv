@@ -1,16 +1,16 @@
 version: 2
 jobs:
-  extract:
+  build:
     docker:
       - image: circleci/python:3.6
     working_directory: ~/repo
+
     steps:
       - checkout:
           path: ~/repo
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "requirements.txt" }}
-      - run: sudo apt install python-dev
       - run:
           name: Install dependencies
           command: |
@@ -23,7 +23,25 @@ jobs:
           key: v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Build CSV
-          command: python main.py
+          command: |
+            . venv/bin/activate
+            python main.py
       - store_artifacts:
           path: avurnavs.csv
           destination: avurnavs.csv
+
+workflows:
+  version: 2
+  commit:
+    jobs:
+      - build
+  nightly:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build
