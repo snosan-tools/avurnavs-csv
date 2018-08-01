@@ -29,6 +29,23 @@ jobs:
       - store_artifacts:
           path: avurnavs.csv
           destination: avurnavs.csv
+      - run:
+          name: Setup Git
+          command: |
+            git config --global user.email "robot@circleci.com"
+            git config --global user.name "Circle CI"
+      - run:
+          name: Push avurnavs to GitHub
+          command: |
+            git clone -q https://${GITHUB_TOKEN}@github.com/snosan-tools/avurnavs-fichiers.git /tmp/avurnavs-fichiers
+            cp avurnavs.csv /tmp/avurnavs-fichiers/avurnavs.csv
+            cd /tmp/avurnavs-fichiers
+            if [ -n "$(git status --porcelain)" ]; then
+              git commit -am "Update"
+              git push -q origin master
+            else
+              echo "No changes";
+            fi
 
 workflows:
   version: 2
