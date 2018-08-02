@@ -41,7 +41,7 @@ jobs:
             cp avurnavs.csv /tmp/avurnavs-fichiers/avurnavs.csv
             cd /tmp/avurnavs-fichiers
             if [ -n "$(git status --porcelain)" ]; then
-              git commit -am "Update"
+              git commit -am "Update at $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
               git push -q origin master
             else
               echo "No changes";
@@ -52,10 +52,10 @@ workflows:
   commit:
     jobs:
       - build
-  nightly:
+  cron:
     triggers:
       - schedule:
-          cron: "0 0 * * *"
+          cron: "0 * * * *"
           filters:
             branches:
               only:
