@@ -43,4 +43,13 @@ df = df[[
     'date_debut_vigueur', 'date_fin_vigueur'
 ]]
 
+# We could have duplicates because in the new
+# version of the Préfet maritime websites they
+# don't expose the ID column
+df.drop_duplicates(
+    subset=['region_prefecture_maritime', 'numero_avurnav'],
+    keep='first',
+    inplace=True
+)
+
 df.to_csv('avurnavs.csv', index=False)
