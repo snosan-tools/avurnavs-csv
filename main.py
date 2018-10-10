@@ -52,4 +52,4 @@ df.drop_duplicates(
     inplace=True
 )
 
-df.to_csv('avurnavs.csv', index=False)
+df.to_csv('avurnavs.csv', index=False, float_format='%.10g')
