@@ -26,6 +26,11 @@ jobs:
           command: |
             . venv/bin/activate
             python main.py
+      - run:
+          name: Test AVURNAVs in the last 48 hours for each region
+          command: |
+            . venv/bin/activate
+            python test_recent_avurnavs.py
       - store_artifacts:
           path: avurnavs.csv
           destination: avurnavs.csv
