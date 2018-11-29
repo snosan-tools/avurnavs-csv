@@ -7,7 +7,7 @@ latest_dates = df.groupby('region_prefecture_maritime')['date_debut_vigueur'].ma
 regions = df['region_prefecture_maritime'].unique()
 
 today = datetime.datetime.today()
-target = (today - datetime.timedelta(days=2))
+target = (today - datetime.timedelta(days=3))
 
 recent_avurnavs_regions = latest_dates[latest_dates >= target].keys()
 
